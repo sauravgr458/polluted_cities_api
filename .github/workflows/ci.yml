@@ -50,4 +50,5 @@ jobs:
           bundler-cache: true
 
       - name: Run test cases
-        run: bin/rspec -f github
+        run: bundle exec rspec -f github
+
