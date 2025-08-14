@@ -53,3 +53,7 @@ gem "faraday-net_http"
 gem "wikipedia-client"
 
 gem "dotenv", groups: [ :development, :test ]
+
+group :test do
+  gem 'rspec-github'
+end
