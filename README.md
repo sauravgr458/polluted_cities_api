@@ -33,13 +33,13 @@ GET http://localhost:3000/cities
   "count": 2,
   "data": [
     {
-      "country": "India",
+      "country": "IN",
       "city": "Delhi",
       "pollution_index": 190.2,
       "description": "Delhi is the capital city of India..."
     },
     {
-      "country": "France",
+      "country": "FR",
       "city": "Paris",
       "pollution_index": 80.1,
       "description": "Paris is the capital and most populous city of France..."
