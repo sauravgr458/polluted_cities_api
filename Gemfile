@@ -50,3 +50,6 @@ end
 
 gem "faraday"
 gem "faraday-net_http"
+gem 'wikipedia-client'
+
+gem 'dotenv', groups: [:development, :test]

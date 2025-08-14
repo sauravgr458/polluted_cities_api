@@ -72,6 +72,8 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
+    addressable (2.8.7)
+      public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.3)
     base64 (0.3.0)
     bcrypt_pbkdf (1.1.1)
@@ -189,6 +191,7 @@ GEM
     psych (5.2.6)
       date
       stringio
+    public_suffix (6.0.2)
     puma (6.6.1)
       nio4r (~> 2.0)
     raabro (1.4.0)
@@ -335,6 +338,8 @@ GEM
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    wikipedia-client (1.17.0)
+      addressable (~> 2.7)
     zeitwerk (2.7.3)
 
 PLATFORMS
@@ -352,6 +357,7 @@ DEPENDENCIES
   bootsnap
   brakeman
   debug
+  dotenv
   faraday
   faraday-net_http
   kamal
@@ -365,6 +371,7 @@ DEPENDENCIES
   sqlite3
   thruster
   tzinfo-data
+  wikipedia-client
 
 BUNDLED WITH
    2.5.23
