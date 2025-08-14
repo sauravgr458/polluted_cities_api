@@ -55,5 +55,5 @@ gem "wikipedia-client"
 gem "dotenv", groups: [ :development, :test ]
 
 group :test do
-  gem 'rspec-github'
+  gem "rspec-github"
 end
