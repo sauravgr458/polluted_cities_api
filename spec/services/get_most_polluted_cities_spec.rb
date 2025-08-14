@@ -6,7 +6,7 @@ RSpec.describe GetMostPollutedCities do
       pollution_rows: [
         { country: "India", city: "Delhi", metric: 190.2 },
         { country: "India", city: "NotACityCorp", metric: 999.0 },
-        { country: "France", city: "Paris", metric: 80.1 },
+        { country: "France", city: "Paris", metric: 80.1 }
       ]
     )
   end

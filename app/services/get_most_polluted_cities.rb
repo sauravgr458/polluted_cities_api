@@ -17,7 +17,7 @@ class GetMostPollutedCities
     normalized = rows.map { |r| normalize_record(r) }.compact
 
     # 2) Keep the worst (max metric) per country per city, then pick top per country
-    by_country_city = normalized.group_by { |r| [r[:country], r[:city]] }.transform_values do |list|
+    by_country_city = normalized.group_by { |r| [ r[:country], r[:city] ] }.transform_values do |list|
       list.max_by { |r| r[:metric] }
     end.values
 

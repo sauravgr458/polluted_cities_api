@@ -47,9 +47,9 @@ class PolluApiClient
         break if response.nil?
 
         results = Array(response["results"])
-        all.concat(results.map{ |res| res.merge!('countryCode' => country_code) })
+        all.concat(results.map { |res| res.merge!("countryCode" => country_code) })
 
-        total_pages = (response['meta']["totalPages"] || 1).to_i
+        total_pages = (response["meta"]["totalPages"] || 1).to_i
         page >= total_pages ? break : page += 1
       end
       all
