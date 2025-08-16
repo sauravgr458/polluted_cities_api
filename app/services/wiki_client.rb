@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class WikiClient
-  API_BASE = ENV.fetch("WIKI_API_BASE", 'https://en.wikipedia.org/w/api.php')
+  API_BASE = ENV.fetch("WIKI_API_BASE", "https://en.wikipedia.org/w/api.php")
   TIMEOUT = 10
 
   # Summary docs:
