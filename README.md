@@ -6,9 +6,9 @@ Returns the most polluted city **per country**, filtered to real cities and enri
 ## How to run
 
 # Install
-ruby -v  # 3.3.x
+ruby -v  # 3.2.x
 
-rails -v # 7.x
+rails -v # 8.x
 
 # Run
 `bundle install`
@@ -18,8 +18,19 @@ rails -v # 7.x
 export POLLU_API_BASE=https://be-recruitment-task.onrender.com
 export POLLU_API_USERNAME=testuser
 export POLLU_API_PASSWORD=testpass
-export WIKI_API_BASE=https://en.wikipedia.org/api/rest_v1
+export WIKI_API_BASE=https://en.wikipedia.org/w/api.php
 ```
+
+# Set data in redis
+We store city data in Redis so that our API serves responses directly from cache, instead of making requests to the `Pollu` and `Wiki` APIs each time.
+```
+rails console # open rails console
+PolluCacheWorker.perform_async # fetch and set cities data in cache
+```
+This job will fetch city data and populate Redis.
+
+# Automatic daily refresh:
+We don’t need to trigger this manually every day. A Sidekiq-Cron job is already configured to run at midnight, which refreshes the cache and ensures the API always serves up-to-date records for the next 24 hours.
 
 # start
 `bin/rails server`
@@ -33,15 +44,15 @@ GET http://localhost:3000/cities
   "count": 2,
   "data": [
     {
-      "country": "IN",
+      "country": "India",
       "city": "Delhi",
-      "pollution_index": 190.2,
+      "pollution": 190.2,
       "description": "Delhi is the capital city of India..."
     },
     {
-      "country": "FR",
+      "country": "France",
       "city": "Paris",
-      "pollution_index": 80.1,
+      "pollution": 80.1,
       "description": "Paris is the capital and most populous city of France..."
     }
   ]
