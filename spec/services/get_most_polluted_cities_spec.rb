@@ -4,9 +4,9 @@ RSpec.describe GetMostPollutedCities do
   let(:client) do
     double("PolluApiClient",
       pollution_rows: [
-        { country: "India", city: "Delhi", metric: 190.2 },
-        { country: "India", city: "NotACityCorp", metric: 999.0 },
-        { country: "France", city: "Paris", metric: 80.1 }
+        { country: "IN", city: "Delhi", metric: 190.2 },
+        { country: "IN", city: "NotACityCorp", metric: 999.0 },
+        { country: "FR", city: "Paris", metric: 80.1 }
       ]
     )
   end

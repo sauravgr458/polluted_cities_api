@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "GET /cities", type: :request do
   it "returns 200 and expected shape" do
     allow(GetMostPollutedCities).to receive(:call).and_return([
-      { country: "India", city: "Delhi", pollution_index: 190.2, description: "..." }
+      { country: "India", city: "Delhi", pollution: 190.2, description: "..." }
     ])
 
     get "/cities"

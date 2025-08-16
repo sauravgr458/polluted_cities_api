@@ -1,0 +1,3 @@
+pollu_cache:
+  cron: "0 0 * * *"   # every midnight
+  class: "PolluCacheWorker"

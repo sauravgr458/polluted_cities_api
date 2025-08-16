@@ -57,3 +57,9 @@ gem "dotenv", groups: [ :development, :test ]
 group :test do
   gem "rspec-github"
 end
+
+gem "countries"
+
+gem "sidekiq", "~> 8.0"
+gem "sidekiq-cron"
+gem "redis", ">= 4.0.1"

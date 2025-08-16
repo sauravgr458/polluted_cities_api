@@ -24,7 +24,11 @@ class CityValidator
     # Caller may pass country to be stricter in future;
     # for now we only use Wikipedia summary heuristics.
     summary = WikiClient.summary_for(name)
-    summary && summary[:is_cityish]
+    if summary && summary[:is_cityish]
+      summary[:extract] || summary[:description]
+    else
+      nil
+    end
   end
 
   def self.smart_cap(word)

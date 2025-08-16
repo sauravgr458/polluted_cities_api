@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class WikiClient
-  API_BASE = "https://en.wikipedia.org/w/api.php"
-  TIMEOUT = 6
-  USER_AGENT = "PollutedCities/1.0 (+your.email@example.com)"
+  API_BASE = ENV.fetch("WIKI_API_BASE")
+  TIMEOUT = 10
 
   # Summary docs:
   #
@@ -16,6 +15,7 @@ class WikiClient
 
     cache_key = "wiki:action_summary:#{title.downcase}"
     Rails.cache.fetch(cache_key, expires_in: 24.hours) do
+      Rails.logger.debug("[WikiClient] Fetching summary for #{title}...")
       resp = client.get("", {
         action: "query",
         prop: "extracts|description",
@@ -29,6 +29,7 @@ class WikiClient
       return nil unless resp.status == 200
       body = resp.body
       page = body.dig("query", "pages")&.values&.first
+      Rails.logger.debug("[WikiClient] Fetched summary for #{title}. RESP TITLE::#{page["title"]}\n")
       next nil unless page
 
       {
@@ -67,7 +68,6 @@ class WikiClient
     Faraday.new(API_BASE) do |f|
       f.options.timeout = TIMEOUT
       f.response :json, content_type: /\bjson$/
-      f.headers["User-Agent"] = USER_AGENT
       f.adapter :net_http
     end
   end

@@ -3,7 +3,6 @@
 class PolluApiClient
   DEFAULT_TIMEOUT = 10 # seconds
   COUNTRIES = %w[PL DE ES FR].freeze
-  # COUNTRIES = %w[FR].freeze
   DEFAULT_LIMIT = 50.freeze
   CACHE_TTL = 600 # 10 minutes
   TOKEN_SKEW = 30 # seconds early refresh
@@ -42,6 +41,7 @@ class PolluApiClient
     Rails.cache.fetch(key, expires_in: CACHE_TTL.seconds) do
       page = 1
       all = []
+      Rails.logger.debug("[PolluApiClient] Fetching #{country_code} countries pollution page records...")
       loop do
         response = get_pollution_page(country_code:, page:, limit: DEFAULT_LIMIT)
         break if response.nil?
@@ -50,13 +50,20 @@ class PolluApiClient
         all.concat(results.map { |res| res.merge!("countryCode" => country_code) })
 
         total_pages = (response["meta"]["totalPages"] || 1).to_i
+        Rails.logger.debug("[PolluApiClient] Page #{page} records")
         page >= total_pages ? break : page += 1
       end
+      Rails.logger.debug("[PolluApiClient] Fetched #{country_code} countries pollution page records.\n")
       all
     end
   end
 
   def get_pollution_page(country_code:, page:, limit:)
+    unless health_check
+      Rails.logger.warn("[PolluApiClient] Health check failed, skipping /pollution request")
+      return nil
+    end
+
     ensure_token!
 
     ratelimit_guard!
@@ -87,6 +94,21 @@ class PolluApiClient
   rescue => e
     Rails.logger.warn("[PolluApiClient] GET /pollution error: #{e.class}: #{e.message}")
     nil
+  end
+
+  # ---- health check --------------------------------------------------------
+
+  def health_check
+    resp = @conn.get("/healthz")
+    if resp.status == 200
+      true
+    else
+      Rails.logger.warn("[PolluApiClient] GET /healthz -> #{resp.status} #{resp.body.inspect}")
+      false
+    end
+  rescue => e
+    Rails.logger.warn("[PolluApiClient] GET /healthz error: #{e.class}: #{e.message}")
+    false
   end
 
   # ---- auth/token handling -------------------------------------------------
